@@ -3,16 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Socket.io</title>
+
+  <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    #chatContent {
+      border: 1px solid #000;
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+      overflow-y: auto;
+    }
+
+    #myChat {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <h4>채팅페이지 입니다.</h4>
-  <button id="send">메세지 보내기</button>
+  <div id="chatContent"></div>
+  <input id="myChat" type="text">
 
   <script>
-    // 웹 소켓 열어달라고 서버에게 부탁하는 코드
-    let ws = new WebSocket("ws://localhost:8081") 
-   // 일반적인 http 요청을 하려면 http:// ~~ 이런식으로 요청을 하는데 WebSocket 으로 통신을 하려면 ws://~~, wss://~~ 이런식으로 작성함
+    var socket = io.connect('http://localhost:3000');
+
+    socket.on('msg', function(data) {
+      // 여기도 화살표 함수 쓰지 말기
+      $("#chatContent").append(`${data}<br>`);
+    });
+
+    $("#myChat").on("keyup", function() {
+      // 여기 함수를 data => {} 이런식으로 화살표 함수로 하면 안됨. 화살표 함수는 자체적인 this 값을 가지지 않기 때문에 `$(this).val()`에서 `this`가 예상한 대상을 가리키지 않음. 
+      // 이것 때문에 Cannot read properties of undefined (reading 'toLowerCase')" 이런 오류 발생 했었음. 
+      if(window.event.keyCode == 13) {
+        $("#chatContent").append(`Clent : "${$(this).val()}" 보냅니다.<br>`);
+        socket.emit('msg', $(this).val());
+        $(this).val("");
+      }
+    })
   </script>
 </body>
 </html>
