@@ -1,16 +1,16 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta charset="utf8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mobile Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+
   <script>
     window.onload = function () {
       // 변수를 선언합니다.
@@ -77,7 +77,7 @@
             console.log('성공')
           }
         });
-        $('#message').empty();
+        $('#message').val('');
       });
       let room;
       $('#loadChat').click(function () {
@@ -106,36 +106,27 @@
     };
   </script>
 </head>
-
 <body>
-  
-  <div data-role="page">
-    <div data-role="header">
+
+  <div data-role = "page">
+    <div data-role = "header">
       <h1>1:1 문의</h1>
     </div>
     <div data-role="content">
       <h3>로그인 id 입력</h3>
-      <input id="name" />
+      <input id = "name" />
       <h3>수신 입력</h3>
-      <input id="yourname" />
-      <!-- <a data-role="button" href="#chatpage">Start Chat</a>
-    </div>
-  </div>
-  <div data-role="page" id="chatpage"> -->
-    <button id='loadChat'>채팅방 열기</button>
+      <input id = "yourname" />
+  
+      <button id="loadChat">채팅방 열기</button>
     <div data-role="content">
       <!-- 메세지 입력 -->
       <input id="message" />
-      <button id='button'>Button</button>
-      <!-- 사진 업로드 -->
-      <!-- <form id="uploadForm" method="post" enctype="multipart/form-data">
-        <input type="file" name="test" id="test"/>
-        <button type="button" id="uploadBtn">Save</button> -->
-      </form>
-      <!-- 전송한 내용이 출력될 위치 -->
-      <ul id="content" data-role="listview" data-inset="true"></ul>
-    </div>
-  </div>  
-</body>
+      <button id="button">Button</button>
 
+      <!-- 전송한 내용이 출력될 위치 -->
+      <ul id="content" data-role="listiew" data-insert="true"></ul>
+    </div>
+  </div>
+</body>
 </html>

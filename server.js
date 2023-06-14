@@ -1,32 +1,27 @@
 const http = require('http');
-const fs = require('fs');
 const socketio = require('socket.io');
 const express = require('express');
 const app = express();
-const indexRouter = require('./')
 
+// 웹 서버 생성
 const server = http.createServer(app);
 
-// app.get('/', (req, res) => {
-//   fs.readFile('HTMLPage.html', (error, data) => {
-//     res.writeHead(200, { 'Content-Type' : 'text/html'});
-//     res.end(data);
-//   });
-// })
+app.use(express.static(__dirname + "/public"))
+
 server.listen(3000, () => {
-  console.log('Server Running at http://127.0.0.1:3000');
+  console.log('Server Running at http://localhost:3000');
 });
 
-const io = socketio.listen(server);
+const io = socketio(server);
 io.sockets.on('connection', (socket) => {
   //message
-  const roomName = null;
+  let roomName = null;
   socket.on('join', (data) => {
     roomName = data;
     socket.join(data);
   })
   socket.on('message', (data) => {
-    io.socket.in(roomName).emit('message', data);
+    io.sockets.in(roomName).emit('message', data);
     console.log(data);
   })
 })
